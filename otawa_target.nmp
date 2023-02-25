@@ -1,0 +1,24 @@
+
+let DELAYED_None	= 0
+let DELAYED_Always	= 1
+let DELAYED_Taken	= 2
+
+extend
+	beq, bne,
+	blt, bltu,
+	bge, bgeu
+		otawa_target = __IADDR + tgt_offset
+		otawa_delayed = DELAYED_Taken
+
+extend
+	jal
+		otawa_target = __IADDR + tgt_offset
+		otawa_delayed = DELAYED_Always
+
+// RC/MC custom instructions
+// remove these lines when not working with the RC/MC architecture
+extend
+	rcmc2, rcmc3, rcmc4,
+	rcmc5, rcmc6
+		otawa_target = __IADDR + tgt_offset
+		otawa_delayed = DELAYED_Taken
