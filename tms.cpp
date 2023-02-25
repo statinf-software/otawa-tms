@@ -1,5 +1,5 @@
 /*
- *	otawa-riscv -- OTAWA loader for RISC-V instruction set
+ *	otawa-tms -- OTAWA loader for TMS instruction set
  *
  *	This file is part of OTAWA
  *	Copyright (c) 2017, IRIT UPS.
@@ -31,12 +31,12 @@
 #include <gel++/DebugLine.h>
 
 extern "C" {
-#	include <riscv/grt.h>
-#	include <riscv/api.h>
-#	include <riscv/config.h>
+#	include <tms/grt.h>
+#	include <tms/api.h>
+#	include <tms/config.h>
 }
 
-namespace otawa { namespace riscv {
+namespace otawa { namespace tms {
 
 // Register description
 hard::RegBank R(hard::RegBank::Make("GPR").gen(32, hard::Register::Make("r%d")));
@@ -45,7 +45,7 @@ hard::RegBank MISC(hard::RegBank::Make("Misc").add(PC));
 static const hard::RegBank *banks_tab[] = { &R, &MISC };
 static Array<const hard::RegBank *> banks_table(2, banks_tab);
 
-} }	// otawa::riscv
+} }	// otawa::tms
 
 #include "otawa_kind.h"
 #include "otawa_target.h"
@@ -53,7 +53,7 @@ static Array<const hard::RegBank *> banks_table(2, banks_tab);
 #include "otawa_read.h"
 #include "otawa_write.h"
 
-namespace otawa { namespace riscv {
+namespace otawa { namespace tms {
 
 class Process;
 
@@ -69,10 +69,10 @@ public:
 		{ setBanks(banks_table); }
 
 	// otawa::Platform overload
-	virtual bool accept(const Identification& id) { return id.abi() == "eabi" && id.architecture() == "riscv"; }
+	virtual bool accept(const Identification& id) { return id.abi() == "eabi" && id.architecture() == "tms"; }
 	virtual const hard::Register *getSP(void) const { return R[29]; }
 };
-const Platform::Identification Platform::ID("riscv-eabi-");
+const Platform::Identification Platform::ID("tms-eabi-");
 
 
 // Inst class
@@ -102,7 +102,7 @@ protected:
 	void decodeRegs(void);
 	Process &proc;
 	kind_t _kind;
-	riscv_address_t _addr;
+	tms_address_t _addr;
 };
 
 
@@ -164,14 +164,14 @@ public:
 		ASSERTP(manager, "manager required");
 		ASSERTP(pf, "platform required");
 
-		// initialize RISC-V decoding
-		_platform = riscv_new_platform();
+		// initialize TMS decoding
+		_platform = tms_new_platform();
 		ASSERTP(_platform, "cannot create an arm_platform");
-		_decoder = riscv_new_decoder(_platform);
+		_decoder = tms_new_decoder(_platform);
 		ASSERTP(_decoder, "cannot create an arm_decoder");
-		_memory = riscv_get_memory(_platform, RISCV_MAIN_MEMORY);
+		_memory = tms_get_memory(_platform, TMS_MAIN_MEMORY);
 		ASSERTP(_memory, "cannot get main arm_memory");
-		riscv_lock_platform(_platform);
+		tms_lock_platform(_platform);
 
 		// build arguments
 		static char no_name[1] = { 0 };
@@ -200,8 +200,8 @@ public:
 	}
 
 	virtual ~Process() {
-		riscv_delete_decoder(_decoder);
-		riscv_unlock_platform(_platform);
+		tms_delete_decoder(_decoder);
+		tms_unlock_platform(_platform);
 		if(_file)
 			delete _file;
 	}
@@ -259,7 +259,7 @@ public:
 
 				// set the memory
 				auto buf = seg->buffer();
-				riscv_mem_write(_memory,
+				tms_mem_write(_memory,
 					seg->baseAddress(),
 					buf.bytes(),
 					buf.size());
@@ -305,23 +305,23 @@ public:
 	}
 
 	otawa::Inst *decode(Address addr) {
-		riscv_inst_t *inst = riscv_decode(_decoder, addr.offset());
+		tms_inst_t *inst = tms_decode(_decoder, addr.offset());
 		Inst::kind_t kind = 0;
 		otawa::Inst *result = 0;
 		// TODO
-		kind = riscv_kind(inst);
+		kind = tms_kind(inst);
 		if(kind & Inst::IS_CONTROL)
 			result = new BranchInst(*this, kind, addr);
 		else
 			result = new Inst(*this, kind, addr);
 		ASSERT(result);
-		riscv_free_inst(inst);
+		tms_free_inst(inst);
 		return result;
 	}
 
 	virtual gel::File *file() const { return _file; }
-	virtual riscv_memory_t *memory(void) const { return _memory; }
-	inline riscv_decoder_t *decoder() const { return _decoder; }
+	virtual tms_memory_t *memory(void) const { return _memory; }
+	inline tms_decoder_t *decoder() const { return _decoder; }
 	inline void *platform(void) const { return _platform; }
 
 	virtual Option<Pair<cstring, int> > getSourceLine(Address addr) {
@@ -351,26 +351,26 @@ public:
 	}
 
 	virtual void get(Address at, t::int8& val)
-		{ val = riscv_mem_read8(_memory, at.offset()); }
+		{ val = tms_mem_read8(_memory, at.offset()); }
 	virtual void get(Address at, t::uint8& val)
-		{ val = riscv_mem_read8(_memory, at.offset()); }
+		{ val = tms_mem_read8(_memory, at.offset()); }
 	virtual void get(Address at, t::int16& val)
-		{ val = riscv_mem_read16(_memory, at.offset()); }
+		{ val = tms_mem_read16(_memory, at.offset()); }
 	virtual void get(Address at, t::uint16& val)
-		{ val = riscv_mem_read16(_memory, at.offset()); }
+		{ val = tms_mem_read16(_memory, at.offset()); }
 	virtual void get(Address at, t::int32& val)
-		{ val = riscv_mem_read32(_memory, at.offset()); }
+		{ val = tms_mem_read32(_memory, at.offset()); }
 	virtual void get(Address at, t::uint32& val)
-		{ val = riscv_mem_read32(_memory, at.offset()); }
+		{ val = tms_mem_read32(_memory, at.offset()); }
 	virtual void get(Address at, t::int64& val)
-		{ val = riscv_mem_read64(_memory, at.offset()); }
+		{ val = tms_mem_read64(_memory, at.offset()); }
 	virtual void get(Address at, t::uint64& val)
-		{ val = riscv_mem_read64(_memory, at.offset()); }
+		{ val = tms_mem_read64(_memory, at.offset()); }
 	virtual void get(Address at, Address& val)
-		{ val = riscv_mem_read32(_memory, at.offset()); }
+		{ val = tms_mem_read32(_memory, at.offset()); }
 	virtual void get(Address at, string& str) {
 		Address base = at;
-		while(!riscv_mem_read8(_memory, at.offset()))
+		while(!tms_mem_read8(_memory, at.offset()))
 			at = at + 1;
 		int len = at - base;
 		char buf[len];
@@ -378,41 +378,41 @@ public:
 		str = String(buf, len);
 	}
 	virtual void get(Address at, char *buf, int size)
-		{ riscv_mem_read(_memory, at.offset(), buf, size); }
+		{ tms_mem_read(_memory, at.offset(), buf, size); }
 
 	void dump(io::Output& out, Address addr) {
 		char out_buffer[200];
-		riscv_inst_t *inst = riscv_decode(_decoder, addr.offset());
-		riscv_disasm(out_buffer, inst);
-		riscv_free_inst(inst);
+		tms_inst_t *inst = tms_decode(_decoder, addr.offset());
+		tms_disasm(out_buffer, inst);
+		tms_free_inst(inst);
 		out << out_buffer;
 	}
 
 	Address decodeTarget(Address a) {
-		riscv_inst_t *inst = riscv_decode(_decoder, a.offset());
-		Address target_addr = riscv_target(inst);
-		riscv_free_inst(inst);
+		tms_inst_t *inst = tms_decode(_decoder, a.offset());
+		Address target_addr = tms_target(inst);
+		tms_free_inst(inst);
 		return target_addr;
 	}
 
 	delayed_t decodeDelayed(Address a) {
-		riscv_inst_t *inst= riscv_decode(_decoder, a.offset());
-		delayed_t d = delayed_t(riscv_delayed(inst));
-		riscv_free_inst(inst);
+		tms_inst_t *inst= tms_decode(_decoder, a.offset());
+		delayed_t d = delayed_t(tms_delayed(inst));
+		tms_free_inst(inst);
 		return d;
 	}
 
 	void decodeReadRegSet(Address a, RegSet &set) {
-		riscv_inst_t *inst= riscv_decode(_decoder, a.offset());
-		riscv_read(inst, set);
-		riscv_free_inst(inst);
+		tms_inst_t *inst= tms_decode(_decoder, a.offset());
+		tms_read(inst, set);
+		tms_free_inst(inst);
 	}
 
 	// writeRegSet from Inst
 	void decodeWriteRegSet(Address a, RegSet &set) {
-		riscv_inst_t *inst= riscv_decode(_decoder, a.offset());
-		riscv_write(inst, set);
-		riscv_free_inst(inst);
+		tms_inst_t *inst= tms_decode(_decoder, a.offset());
+		tms_write(inst, set);
+		tms_free_inst(inst);
 	}
 
 private:
@@ -427,9 +427,9 @@ private:
 
 	otawa::Inst *_start;
 	hard::Platform *oplatform;
-	riscv_platform_t *_platform;
-	riscv_memory_t *_memory;
-	riscv_decoder_t *_decoder;
+	tms_platform_t *_platform;
+	tms_memory_t *_memory;
+	tms_decoder_t *_decoder;
 	gel::File *_file;
 	gel::DebugLine *_lines;
 	int argc;
@@ -459,7 +459,7 @@ otawa::Inst *BranchInst::target(void) {
 	if (!isTargetDone) {
 		isTargetDone = true;
 		if(!isIndirect()) {
-			riscv_address_t a = proc.decodeTarget(_addr).offset();
+			tms_address_t a = proc.decodeTarget(_addr).offset();
 			_target = process().findInstAt(a);
 		}
 	}
@@ -525,10 +525,10 @@ void Inst::writeRegSet(RegSet &set) {
 // Loader definition
 class Loader: public otawa::Loader {
 public:
-	Loader(void): otawa::Loader(make("riscv", OTAWA_LOADER_VERSION).version(ISA_VERSION).alias("elf_-1")) {
+	Loader(void): otawa::Loader(make("tms", OTAWA_LOADER_VERSION).version(ISA_VERSION).alias("elf_-1")) {
 	}
 
-	virtual CString getName(void) const { return "riscv"; }
+	virtual CString getName(void) const { return "tms"; }
 
 	virtual otawa::Process *load(Manager *man, CString path, const PropList& props) {
 		otawa::Process *proc = create(man, props);
@@ -550,16 +550,16 @@ public:
 // plugin definition
 class Plugin: public otawa::ProcessorPlugin {
 public:
-	Plugin(void): otawa::ProcessorPlugin("otawa/riscv", Version(ISA_VERSION), OTAWA_PROC_VERSION) {
+	Plugin(void): otawa::ProcessorPlugin("otawa/tms", Version(ISA_VERSION), OTAWA_PROC_VERSION) {
 	}
 };
 
 
-} }	// otawa::riscv
+} }	// otawa::tms
 
-otawa::riscv::Loader otawa_riscv_loader;
-ELM_PLUGIN(otawa_riscv_loader, OTAWA_LOADER_HOOK);
-otawa::riscv::Plugin riscv_plugin;
-ELM_PLUGIN(riscv_plugin, OTAWA_PROC_HOOK);
+otawa::tms::Loader otawa_tms_loader;
+ELM_PLUGIN(otawa_tms_loader, OTAWA_LOADER_HOOK);
+otawa::tms::Plugin tms_plugin;
+ELM_PLUGIN(tms_plugin, OTAWA_PROC_HOOK);
 
 
