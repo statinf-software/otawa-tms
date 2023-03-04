@@ -1,10 +1,13 @@
 cmake_minimum_required(VERSION 3.0)
 project(otawa-tms)
 
+# Enable debugging symbols (#TODO)
+set(CMAKE_BUILD_TYPE Debug)
+
 # MIPS plugin build
 set(ISA 			"tms")
 set(NAMESPACE		"otawa")
-set(ELF_NUM			"-1")		 # TODO
+set(ELF_NUM			"-1")		 #TODO
 set(CONFIG			)
 
 # looking for ARM loader
