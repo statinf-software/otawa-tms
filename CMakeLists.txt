@@ -38,12 +38,14 @@ message(STATUS "otawa-config found at ${OTAWA_CONFIG}")
 # get OTAWA configuration
 execute_process(COMMAND "${OTAWA_CONFIG}" --cflags
 	OUTPUT_VARIABLE OTAWA_CFLAGS  OUTPUT_STRIP_TRAILING_WHITESPACE)
+message(STATUS "cflags=${OTAWA_CFLAGS}")
 execute_process(COMMAND "${OTAWA_CONFIG}" --libs
 	OUTPUT_VARIABLE OTAWA_LDFLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
 execute_process(COMMAND "${OTAWA_CONFIG}" --prefix --rpath
 	OUTPUT_VARIABLE OTAWA_PREFIX  OUTPUT_STRIP_TRAILING_WHITESPACE)
-# include("${OTAWA_PREFIX}/share/Otawa/cmake/Otawa.cmake")
-include("${OTAWA_PREFIX}/../data/cmake/Otawa.cmake")
+include("${OTAWA_PREFIX}/share/Otawa/cmake/Otawa.cmake")
+# include("${OTAWA_PREFIX}/../data/cmake/Otawa.cmake")
+# include("${OTAWA_PREFIX}/data/cmake/Otawa.cmake")
 set(CMAKE_CXX_STANDARD 11)
 
 add_compile_options(-Wall)
@@ -88,6 +90,7 @@ set(ORIGIN $ORIGIN)
 add_library("${ISA}" SHARED ${SOURCES})
 set_property(TARGET "${ISA}" PROPERTY PREFIX "")
 set_property(TARGET "${ISA}" PROPERTY COMPILE_FLAGS "${OTAWA_CFLAGS}")
+message(STATUS "compflags=${COMPILE_FLAGS}")
 target_link_libraries("${ISA}" "${OTAWA_LDFLAGS} ${ISA_LIB}")
 
 
@@ -96,6 +99,7 @@ set(PLUGIN_PATH "${OTAWA_PREFIX}/lib/otawa/${NAMESPACE}")
 install(TARGETS "${ISA}" LIBRARY		DESTINATION "${PLUGIN_PATH}")
 install(FILES	"${ISA}.eld"			DESTINATION "${PLUGIN_PATH}")
 install(FILES	"elf_${ELF_NUM}.eld"	DESTINATION "${OTAWA_PREFIX}/lib/otawa/loader")
+# install(FILES	"elf_${ELF_NUM}.eld"	DESTINATION "${OTAWA_PREFIX}/../lib/otawa/loader") # Jordy
 install(FILES	"${ISA_IRG}"			DESTINATION "${OTAWA_PREFIX}/share/Otawa/irgs")
 if(CONFIG)
 	install(FILES	"${CONFIG}"			DESTINATION "${PLUGIN_PATH}")
