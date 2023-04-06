@@ -86,8 +86,11 @@ public:
 
 	// Inst overload
 	kind_t kind(void) override { return _kind; }
-	address_t address(void) const override { return _addr; }
-	t::uint32 size(void) const override { return 4; }
+	// address_t address(void) const override { return _addr; }
+	t::uint32 size(void) const override;
+	virtual address_t address(void) const override {
+		return _addr;
+	}
 
 	void dump(io::Output& out) override;
 	void semInsts(sem::Block &block) override;
@@ -117,6 +120,7 @@ public:
 	otawa::Inst *target(void) override;
 	int delaySlots(void) override { return 1; }
 	delayed_t delayType(void) override;
+	t::uint32 size(void) const override;
 
 private:
 	otawa::Inst *_target;
@@ -207,11 +211,12 @@ public:
 	}
 
 	// Process overloads
-	virtual int instSize(void) const { return 4; }
+	virtual int instSize(void) const { return 4; } // TODO JOR
 	virtual hard::Platform *platform(void) { return oplatform; }
 	virtual otawa::Inst *start(void) { return _start; }
 
 	virtual File *loadFile(elm::CString path) {
+		// Output log(io::err); // for debugging, use log << ...
 
 		// check if there is not an already opened file !
 		if(program())
@@ -239,7 +244,10 @@ public:
 
 			// build the GEL image
 			_file = gel::Manager::open(path);
-			auto image = _file->make(params);
+			gel::Image* image = _file->make(params);
+
+			if(! image)
+				throw LoadException("gel returned no image");
 
 			// build the segments
 			for(auto seg: image->segments()) {
@@ -272,9 +280,9 @@ public:
 				Symbol::kind_t kind = Symbol::NONE;
 				t::uint32 mask = 0xffffffff;
 				switch(sym->type()) {
-					case gel::Symbol::FUNC:
+				case gel::Symbol::FUNC:
 					kind = Symbol::FUNCTION;
-					mask = 0xfffffffe;
+					// mask = 0xfffffffe; // JOR: think we shouldn't want this?
 					break;
 					case gel::Symbol::OTHER_TYPE:
 					kind = Symbol::LABEL;
@@ -287,6 +295,7 @@ public:
 				}
 
 				// build the symbol
+				// cerr << "Adding this symbol to file:" << sym->name().chars() << "\n";
 				Symbol *osym = new Symbol(*file, sym->name(),
 					kind, sym->value() & mask, sym->size());
 				file->addSymbol(osym);
@@ -415,6 +424,10 @@ public:
 		tms_free_inst(inst);
 	}
 
+protected:
+	friend class Inst;
+	friend class BranchInst;
+
 private:
 
 	void setup_debug(void) {
@@ -423,6 +436,14 @@ private:
 			return;
 		init = true;
 		_lines = _file->debugLines();
+	}
+
+	int get_size(const otawa::Inst *inst) {
+		tms_inst_t *i = tms_decode(_decoder, inst->address().offset());
+		int r = tms_get_inst_size(i) >> 3;
+		tms_free_inst(i);
+		return r/2;
+		// return r; // TODO JOR
 	}
 
 	otawa::Inst *_start;
@@ -438,6 +459,13 @@ private:
 	bool init;
 };
 
+t::uint32 Inst::size(void) const {
+	return proc.get_size(this);
+}
+
+t::uint32 BranchInst::size(void) const {
+	return proc.get_size(this);
+}
 
 // decode from Segment
 otawa::Inst *Segment::decode(address_t address) {
