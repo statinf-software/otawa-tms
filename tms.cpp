@@ -38,6 +38,8 @@ extern "C" {
 
 namespace otawa { namespace tms {
 
+const t::uint32 code_base = 0x82000;
+
 // Register description
 hard::RegBank R(hard::RegBank::Make("GPR").gen(32, hard::Register::Make("r%d")));
 hard::Register PC("PC", hard::Register::ADDR, 32);
@@ -56,6 +58,10 @@ static Array<const hard::RegBank *> banks_table(2, banks_tab);
 namespace otawa { namespace tms {
 
 class Process;
+
+typedef t::uint32 addr_t;
+inline addr_t tms2otawa(addr_t a) { return a << 1; }
+inline addr_t otawa2tms(addr_t a) { return a >> 1; }
 
 // Platform description
 class Platform: public hard::Platform {
@@ -261,14 +267,20 @@ public:
 				else if(seg->hasContent())
 					flags |= Segment::INITIALIZED;
 				auto *oseg = new Segment(*this,
-					seg->name(), seg->baseAddress(), seg->size(), flags);
+					seg->name(),
+					tms2otawa(seg->baseAddress()),
+					seg->size(),
+					flags);
+				/*cerr << "DEBUG: segment " << oseg->name()
+					 << " " << oseg->address() << ":" << oseg->size()
+					 << " ("  << io::hex(otawa2tms(oseg->address().offset())) << ')'
+					 << io::endl;*/
 				file->addSegment(oseg);
-
 
 				// set the memory
 				auto buf = seg->buffer();
 				tms_mem_write(_memory,
-					seg->baseAddress(),
+					tms2otawa(seg->baseAddress()),
 					buf.bytes(),
 					buf.size());
 			}
@@ -278,16 +290,19 @@ public:
 
 				// compute kind
 				Symbol::kind_t kind = Symbol::NONE;
-				t::uint32 mask = 0xffffffff;
+				t::uint32 val = sym->value();
 				switch(sym->type()) {
 				case gel::Symbol::FUNC:
 					kind = Symbol::FUNCTION;
-					// mask = 0xfffffffe; // JOR: think we shouldn't want this?
+					val = tms2otawa(val);
+					cerr << "DEBUG:TMS: function " << sym->name() << io::endl;
 					break;
-					case gel::Symbol::OTHER_TYPE:
+				case gel::Symbol::OTHER_TYPE:
 					kind = Symbol::LABEL;
+					cerr << "DEBUG:TMS: label " << sym->name() << io::endl;
 					break;
 				case gel::Symbol::DATA:
+					cerr << "DEBUG:TMS: data " << sym->name() << io::endl;
 					kind = Symbol::DATA;
 					break;
 				default:
@@ -297,7 +312,7 @@ public:
 				// build the symbol
 				// cerr << "Adding this symbol to file:" << sym->name().chars() << "\n";
 				Symbol *osym = new Symbol(*file, sym->name(),
-					kind, sym->value() & mask, sym->size());
+					kind, val, sym->size());
 				file->addSymbol(osym);
 			}
 
@@ -305,7 +320,7 @@ public:
 			delete image;
 
 			// last initializations
-			_start = findInstAt(_file->entry());
+			_start = findInstAt(tms2otawa(_file->entry()));
 			return file;
 		}
 		catch(gel::Exception& e) {
@@ -314,7 +329,8 @@ public:
 	}
 
 	otawa::Inst *decode(Address addr) {
-		tms_inst_t *inst = tms_decode(_decoder, addr.offset());
+		tms_inst_t *inst = tms_decode(_decoder, otawa2tms(addr.offset()));
+		//cerr << "DEBUG: decode " << addr << " (" << io::hex(otawa2tms(addr.offset())) << ")" << io::endl;
 		Inst::kind_t kind = 0;
 		otawa::Inst *result = 0;
 		// TODO
@@ -391,35 +407,35 @@ public:
 
 	void dump(io::Output& out, Address addr) {
 		char out_buffer[200];
-		tms_inst_t *inst = tms_decode(_decoder, addr.offset());
+		tms_inst_t *inst = tms_decode(_decoder, otawa2tms(addr.offset()));
 		tms_disasm(out_buffer, inst);
 		tms_free_inst(inst);
 		out << out_buffer;
 	}
 
 	Address decodeTarget(Address a) {
-		tms_inst_t *inst = tms_decode(_decoder, a.offset());
+		tms_inst_t *inst = tms_decode(_decoder, otawa2tms(a.offset()));
 		Address target_addr = tms_target(inst);
 		tms_free_inst(inst);
 		return target_addr;
 	}
 
 	delayed_t decodeDelayed(Address a) {
-		tms_inst_t *inst= tms_decode(_decoder, a.offset());
+		tms_inst_t *inst= tms_decode(_decoder, otawa2tms(a.offset()));
 		delayed_t d = delayed_t(tms_delayed(inst));
 		tms_free_inst(inst);
 		return d;
 	}
 
 	void decodeReadRegSet(Address a, RegSet &set) {
-		tms_inst_t *inst= tms_decode(_decoder, a.offset());
+		tms_inst_t *inst= tms_decode(_decoder, otawa2tms(a.offset()));
 		tms_read(inst, set);
 		tms_free_inst(inst);
 	}
 
 	// writeRegSet from Inst
 	void decodeWriteRegSet(Address a, RegSet &set) {
-		tms_inst_t *inst= tms_decode(_decoder, a.offset());
+		tms_inst_t *inst= tms_decode(_decoder, otawa2tms(a.offset()));
 		tms_write(inst, set);
 		tms_free_inst(inst);
 	}
@@ -439,7 +455,7 @@ private:
 	}
 
 	int get_size(const otawa::Inst *inst) {
-		tms_inst_t *i = tms_decode(_decoder, inst->address().offset());
+		tms_inst_t *i = tms_decode(_decoder, otawa2tms(inst->address().offset()));
 		int r = tms_get_inst_size(i) >> 3;
 		tms_free_inst(i);
 		return r/2;
@@ -460,7 +476,7 @@ private:
 };
 
 t::uint32 Inst::size(void) const {
-	return proc.get_size(this);
+	return proc.get_size(this) * 2;
 }
 
 t::uint32 BranchInst::size(void) const {

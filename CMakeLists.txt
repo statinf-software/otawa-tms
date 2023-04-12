@@ -59,7 +59,7 @@ endif()
 
 
 # sources
-set(GLISS_ATTR		"${CMAKE_SOURCE_DIR}/../gliss2/gliss2/gep/gliss-attr")
+set(GLISS_ATTR		"${CMAKE_SOURCE_DIR}/../gliss2/gep/gliss-attr")
 MAKE_GLISS_FUNCTION(OTAWA_KIND    "otawa_kind"      "otawa_kind.nmp"
 	"${ISA_IRG}"    "return 0;")
 MAKE_GLISS_FUNCTION(OTAWA_TARGET  "otawa_target"    "otawa_target.nmp"
