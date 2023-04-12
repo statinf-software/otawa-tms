@@ -92,6 +92,7 @@ set_property(TARGET "${ISA}" PROPERTY PREFIX "")
 set_property(TARGET "${ISA}" PROPERTY COMPILE_FLAGS "${OTAWA_CFLAGS}")
 message(STATUS "compflags=${COMPILE_FLAGS}")
 target_link_libraries("${ISA}" "${OTAWA_LDFLAGS} ${ISA_LIB}")
+include_directories(${CMAKE_BINARY_DIR})
 
 
 # installation
