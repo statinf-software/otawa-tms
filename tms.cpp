@@ -267,10 +267,12 @@ public:
 
 				// set the memory
 				auto buf = seg->buffer();
-				tms_mem_write(_memory,
-					seg->baseAddress(),
-					buf.bytes(),
-					buf.size());
+                                if(buf.size()) {
+                                    tms_mem_write(_memory,
+                                            seg->baseAddress(),
+                                            buf.bytes(),
+                                            buf.size());
+                                }
 			}
 
 			// build the symbols
@@ -442,8 +444,8 @@ private:
 		tms_inst_t *i = tms_decode(_decoder, inst->address().offset());
 		int r = tms_get_inst_size(i) >> 3;
 		tms_free_inst(i);
-		return r/2;
-		// return r; // TODO JOR
+//		return r/2;
+		 return r; // TODO JOR
 	}
 
 	otawa::Inst *_start;
