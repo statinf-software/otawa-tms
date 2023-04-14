@@ -458,8 +458,7 @@ private:
 		tms_inst_t *i = tms_decode(_decoder, otawa2tms(inst->address().offset()));
 		int r = tms_get_inst_size(i) >> 3;
 		tms_free_inst(i);
-		return r/2;
-		// return r; // TODO JOR
+		return r;
 	}
 
 	otawa::Inst *_start;
@@ -476,7 +475,7 @@ private:
 };
 
 t::uint32 Inst::size(void) const {
-	return proc.get_size(this) * 2;
+	return proc.get_size(this);
 }
 
 t::uint32 BranchInst::size(void) const {
