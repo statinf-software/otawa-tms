@@ -3,3 +3,63 @@ let DELAYED_None	= 0
 let DELAYED_Always	= 1
 let DELAYED_Taken	= 2
 
+extend b, banz, bar, bf
+	otawa_target = __IADDR + (offset << 1)
+
+extend ffc
+	otawa_target = addr << 1 // TODO
+
+extend intr, intr_nmi, intr_emuint
+	otawa_target = 0 // TODO
+
+extend iret
+	otawa_target = 0 // TODO
+
+extend lb_xar7
+	otawa_target = 0
+
+extend lb_22bit
+	otawa_target = 0 // TODO
+
+extend lc_xar7
+	otawa_target = 0 // TODO
+
+extend lcr
+	otawa_target = imm << 1
+	
+extend lcr_xarn
+	otawa_target = 0 // TODO
+	// otawa_target = 0
+
+extend loopnz, loopz
+	otawa_target = 0 // TODO
+
+// extend lret, lrete, lretr
+// 	otawa_target = 0
+
+extend trap
+	otawa_target = 0 // TODO
+
+extend xb_al
+	otawa_target = 0 // TODO
+
+extend xb_pma
+	otawa_target = 0 // TODO
+
+extend xb_pma_cond
+	otawa_target = 0 // TODO
+
+extend xbanz, xbanz_arpn1, xbanz_arpn2, xbanz_arpn3
+	otawa_target = 0 // TODO
+
+extend xcall_al
+	otawa_target = 0 // TODO
+
+extend xcall_pma
+	otawa_target = 0 // TODO
+
+extend xcall_pma_cond
+	otawa_target = 0 // TODO
+
+extend xret__xretc_cond
+	otawa_target = 0 // TODO
