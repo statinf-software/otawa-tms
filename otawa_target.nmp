@@ -9,7 +9,7 @@ extend b, banz, bar, bf
 extend ffc
 	otawa_target = addr << 1 
 
-extend intr, intr_nm i, intr_emuint
+extend intr, intr_nmi, intr_emuint
 	otawa_target = 0 // interrupts
 
 extend iret
