@@ -62,7 +62,7 @@ extend xcall_pma
 	otawa_target = (0x3f0000 + pma) << 1 // function call to immediate address
 
 extend xcall_pma_cond
-	otawa_target = 0 (0x3f0000 + pma) << 1 //conditional function call to immediate address
+	otawa_target = (0x3f0000 + pma) << 1 //conditional function call to immediate address
 
 extend xret__xretc_cond
 	otawa_target = 0 // conditional return, address would be popped off stack
