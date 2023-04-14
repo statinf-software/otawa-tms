@@ -4,7 +4,7 @@ let DELAYED_Always	= 1
 let DELAYED_Taken	= 2
 
 extend b, banz, bar, bf
-	otawa_target = __IADDR + (offset << 1)
+	otawa_target = (__IADDR + offset) << 1
 
 extend ffc
 	otawa_target = addr << 1 // TODO
@@ -19,7 +19,7 @@ extend lb_xar7
 	otawa_target = 0
 
 extend lb_22bit
-	otawa_target = 0 // TODO
+	otawa_target = addr << 1
 
 extend lc_xar7
 	otawa_target = 0 // TODO
@@ -44,10 +44,10 @@ extend xb_al
 	otawa_target = 0 // TODO
 
 extend xb_pma
-	otawa_target = 0 // TODO
+	otawa_target = (0x3f0000 + pma) << 1
 
 extend xb_pma_cond
-	otawa_target = 0 // TODO
+	otawa_target = (0x3f0000 + pma) << 1
 
 extend xbanz, xbanz_arpn1, xbanz_arpn2, xbanz_arpn3
 	otawa_target = 0 // TODO
