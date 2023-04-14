@@ -7,13 +7,13 @@ extend b, banz, bar, bf
 	otawa_target = (__IADDR + offset) << 1
 
 extend ffc
-	otawa_target = addr << 1 // TODO
+	otawa_target = addr << 1 
 
-extend intr, intr_nmi, intr_emuint
-	otawa_target = 0 // TODO
+extend intr, intr_nm i, intr_emuint
+	otawa_target = 0 // interrupts
 
 extend iret
-	otawa_target = 0 // TODO
+	otawa_target = 0 // interrupt return
 
 extend lb_xar7
 	otawa_target = 0
@@ -22,17 +22,17 @@ extend lb_22bit
 	otawa_target = addr << 1
 
 extend lc_xar7
-	otawa_target = 0 // TODO
+	otawa_target = 0 
 
 extend lcr
 	otawa_target = imm << 1
 	
 extend lcr_xarn
-	otawa_target = 0 // TODO
+	otawa_target = 0
 	// otawa_target = 0
 
 extend loopnz, loopz
-	otawa_target = 0 // TODO
+	otawa_target = __IADDR << 1 // loops
 
 // extend lret, lrete, lretr
 // 	otawa_target = 0
@@ -41,10 +41,10 @@ extend sb
 	otawa_target = (__IADDR + offset) << 1
 
 extend trap
-	otawa_target = 0 // TODO
+	otawa_target = 0 // trap
 
 extend xb_al
-	otawa_target = 0 // TODO
+	otawa_target = 0 // unconditional indirect branch to address in AL
 
 extend xb_pma
 	otawa_target = (0x3f0000 + pma) << 1
@@ -53,16 +53,16 @@ extend xb_pma_cond
 	otawa_target = (0x3f0000 + pma) << 1
 
 extend xbanz, xbanz_arpn1, xbanz_arpn2, xbanz_arpn3
-	otawa_target = 0 // TODO
+	otawa_target = (0x3f0000 + pma) << 1 //branch to immediate address if ARn is not zero
 
 extend xcall_al
-	otawa_target = 0 // TODO
+	otawa_target = 0 // indirect call to address in register AL
 
 extend xcall_pma
-	otawa_target = 0 // TODO
+	otawa_target = (0x3f0000 + pma) << 1 // function call to immediate address
 
 extend xcall_pma_cond
-	otawa_target = 0 // TODO
+	otawa_target = 0 (0x3f0000 + pma) << 1 //conditional function call to immediate address
 
 extend xret__xretc_cond
-	otawa_target = 0 // TODO
+	otawa_target = 0 // conditional return, address would be popped off stack
