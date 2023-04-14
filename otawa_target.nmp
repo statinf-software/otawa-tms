@@ -37,6 +37,9 @@ extend loopnz, loopz
 // extend lret, lrete, lretr
 // 	otawa_target = 0
 
+extend sb
+	otawa_target = (__IADDR + offset) << 1
+
 extend trap
 	otawa_target = 0 // TODO
 

@@ -55,6 +55,9 @@ extend loopnz, loopz
 extend lret, lrete, lretr
 	otawa_kind = IS_CONTROL | IS_RETURN
 
+extend sb
+	otawa_kind = IS_CONTROL | IS_COND
+
 extend trap
 	otawa_kind = IS_CONTROL | IS_TRAP
 
