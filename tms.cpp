@@ -295,14 +295,14 @@ public:
 				case gel::Symbol::FUNC:
 					kind = Symbol::FUNCTION;
 					val = tms2otawa(val);
-					cerr << "DEBUG:TMS: function " << sym->name() << io::endl;
+					// cerr << "DEBUG:TMS: function " << sym->name() << io::endl;
 					break;
 				case gel::Symbol::OTHER_TYPE:
 					kind = Symbol::LABEL;
-					cerr << "DEBUG:TMS: label " << sym->name() << io::endl;
+					// cerr << "DEBUG:TMS: label " << sym->name() << io::endl;
 					break;
 				case gel::Symbol::DATA:
-					cerr << "DEBUG:TMS: data " << sym->name() << io::endl;
+					// cerr << "DEBUG:TMS: data " << sym->name() << io::endl;
 					kind = Symbol::DATA;
 					break;
 				default:
