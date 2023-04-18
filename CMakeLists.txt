@@ -70,6 +70,8 @@ MAKE_GLISS_PROCEDURE(OTAWA_READ  "otawa_read"   "otawa_uregs.nmp"
 	"${ISA_IRG}"   ";")
 MAKE_GLISS_PROCEDURE(OTAWA_WRITE  "otawa_write"   "otawa_uregs.nmp"
 	"${ISA_IRG}"   ";")
+MAKE_GLISS_FUNCTION(OTAWA_CYCLES    "otawa_cycles"      "otawa_cycles.nmp"
+	"${ISA_IRG}"    "return 0;")
 #MAKE_GLISS_PROCEDURE(OTAWA_SEM    "otawa_sem"       "otawa_sem.nmp"
 #	"${PROC_IRG}"      ";"           "${ARM_AUX}")
 
@@ -80,6 +82,7 @@ set(SOURCES
 	${OTAWA_DELAYED}
 	${OTAWA_READ}
 	${OTAWA_WRITE}
+	${OTAWA_CYCLES}
 )
 
 

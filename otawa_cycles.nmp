@@ -1,0 +1,74 @@
+extend abs_ACC, abstc_ACC, add_ACC_16bit, add_ACC_loc16, add_acc_loc16_0, add_acc_loc16_shift, add_acc_loc16_shift16, add_loc16_AX, 
+add_loc16_AX, add_loc16_signed, addb_ACC, addb_SP, addcl_ACC_loc32, addcu_ACC_loc16, addl_ACC_loc32, addl_loc32_ACC, 
+addu_ACC_loc16, addul_P_loc32, addul_ACC_loc32, adrk, and_ACC_16bit, and_ACC_16bit_16shift, and_ACC_loc16, 
+and_loc16_AX, and_AX_loc16, and_loc16_16bitsigned, andb_AX, asp, asr_ax, asr_ax_t, asr_acc, asr_acc_t, 
+asrl_acc_t, clrc_amode, clrc_ovc, clrc_xf, cmp_ax, cmp_loc16, cmp64_acc_p, cmpl_ACC_p, cmpr0, cmpr1, cmpr2, cmpr3, 
+csb, dec, estop1, flip, iack, impyal, impyl_p, impysl, impyxul, inc, lpaddr, lsl_ACC, lsl_ACC_T, lsl_AX, lsl_AX_T, 
+lsl64_ACC, lsl64_ACC_T, lsll_ACC_T, lsr_AX_T, lsr64_ACC, lsr64_ACC_T, lsrl_ACC_T, max_ax, maxcul, maxl, min, mincul, 
+minl, mov_acc_imm, mov_acc_loc16, mov_acc_loc16_shift_0, mov_acc_loc16_shift_1to15, mov_acc_loc16_shift_16, 
+mov_AR_loc16__movz_ARn_0to5, movz_AR6, movz_AR7, mov_dp, mov_loc16_const, mov_loc16_acc_shift1, mov_loc16_acc_shift2to8, 
+mov_loc16_ax_cond, mov_loc16_IER, mov_loc16_ovc, mov_loc16_p, mov_loc16_T, mov_OVC_loc16, mov_pl_loc16, mov_pm_ax,
+mov_T_loc16, mov_TL, mov_xarn_pc, mova__addl_ACC_P, movad, movb_XARn__movb_ARn, movb_ax_lsb, movb_ax_msb, movb_loc16_8bit_cond, 
+movb_loc16_ax_lsb, movb_loc16_ax_msb, movdl_xt_loc32, movh_ACC_1, movh_ACC_shift_objmode, movh_loc16_p, movl_ACC_loc32, 
+movl_acc_p__movp, movl_loc32_acc_cond, movl_loc32_p, movl_p_ACC, movl_p_loc32, movl_XAR0_loc32, 
+movl_XAR1_loc32, movl_XAR2_loc32, movl_XAR3_loc32, movl_XAR4_loc32, movl_XAR5_loc32, movl_XAR6_loc32, movl_XAR7_loc32, 
+movl_xt_loc32, movs__subl_acc_p_pm, movu_acc_loc16, movu_loc16_OVC, movu_OVC_loc16, movx, movz_dp, mpy_ACC, mpy_ACC_T, mpy_P, 
+movl_XAR0_22bit, movl_XAR1_22bit, movl_XAR2_22bit, movl_XAR3_22bit, movl_XAR4_22bit, movl_XAR5_22bit, movl_XAR6_22bit, movl_XAR7_22bit, 
+mpy_P_T, mpya_P, mpya_P_T, mpyb_ACC, mpyb_P, mpys_P, mpyu_p, mpyu_ACC, mpyxu_ACC, mpyxu_P, nasp, neg_ACC, neg_ax, neg64_ax, 
+negtc_acc, not_acc, not_ax, or_acc_loc16, or_acc_16bit_16, or_ax_loc16, or_loc16_16bit, or_loc16_ax, orb_ax_8bit, 
+pop_ar1_ar0, pop_ar3_ar2, pop_ar5_ar4, pop_ar1h_ar0h, pop_p, pop_st0, pop_t_st0, push_ar1_ar0, push_ar3_ar2, push_ar5_ar4, push_ar1h_ar0h, 
+push_dbgier, push_ifr, push_p, push_rpc, push_st0, push_st1, push_t_st0, qmpyal_p_xt_loc32, qmpyl_p, qmpysl, 
+qmpyul, qmpyxul, rol_acc, ror_acc, rpt_imm, sat_acc, sat64, sbbu, sbrk_8bit, setc_xf, sfr_acc, sfr_acc_t, spm, sqra, sqrs, 
+sub_acc_loc16_shift_0, sub_acc_loc16_shift_1to15, sub_acc_loc16_shift_16, sub_ACC_loc16, sub_ACC_16bit, sub_ax_loc16, sub_loc16_ax, 
+subb_sp_7bit, subbl_acc_loc32, subcu_acc_loc16, subcul_acc_loc32, subl_acc_loc32, subl_loc32_acc, subr_loc16_ax, 
+subrl_loc32_acc, subul_acc_loc32, subul_p_loc32, tbit_loc16_bit, tbit_loc16_t, tclr, test_acc, tset_loc16_16bit, 
+xor_acc_loc16, xor_ACC_16bit_0to15, xor_ACC_16bit_16, xor_ax_loc16, xor_loc16_ax, xor_loc16_16bit, xorb, zalr, zapa, 
+addb_AX, addb_XARn, cmpb, cmpl_ACC_loc32, lcr, lretr, lsr_AX, mov_AX, mov_loc16_0, mov_loc16_ARn, mov_loc16_AX, mov_ph_loc16, 
+movb_ACC, movb_AX, movb_XAR6, movb_XAR7, 
+movl_loc32_XAR0, movl_loc32_XAR1, movl_loc32_XAR2, movl_loc32_XAR3, movl_loc32_XAR4, movl_loc32_XAR5, movl_loc32_XAR6, movl_loc32_XAR7, 
+movw, movl_XAR0_22bit, movl_XAR1_22bit, movl_XAR2_22bit, movl_XAR3_22bit, movl_XAR4_22bit, movl_XAR5_22bit, movl_XAR6_22bit, movl_XAR7_22bit, 
+mov_AR_loc16__movz_ARn_0to5, movz_AR6, movz_AR7, nop, subb_ACC, subb_XARn, subu, or_acc_16bit_0_15, push_dp, push_dp_st1, 
+absf32, cmpf32_tworh, cmpf32_imm, cmpf32_zero, maxf32_tworh, maxf32_16bit, maxf32_tworh_and_mov32_tworh, minf32_tworh, minf32_16bit, 
+minf32_tworh_and_mov32_tworh, mov16, mov32_locsrc, mov32_locdest, mov32_mem32_rah, 
+mov32_rah_rbh_cndf, movst0, movxi, negf32, setflg, zero, 
+movl_loc32_xt__push_xt, mov32_mem32_stf, mov32_rah_mem32_cond, mov32_stf_mem32, movd32, pop_rb, push_RB, restore, rptb, rptb_rc, save, swapf, 
+test_tf, zero_a
+	otawa_cycles = 1
+
+extend aborti, and_IER, and_IFR, clrc_mode, dmac, imacl, impyl_acc, in_loc16, macp_loc16, macp_loc16_xar7, 
+mov_loc16_val, or_ier_16bit, or_ifr_16bit, pop_dp, pop_loc16, pread_loc16_xar7, push_loc16, qmacl, qmpyl_acc, 
+uout, xmac, xmacd, xpread_loc16_pma, xpread_loc16_al, mov_16bit_loc16, subf32_and_mov32, subf32_and_mov32_locdest, 
+addf32_rah_imm_rbh, addf32_threerh, einvf32, eisqrtf32, f32_to_i16_r, f32_to_i16, f32toi32, f32_to_ui16, f32_to_ui16r, 
+f32_to_ui32, fracf32, i16_to_f32, i16_to_f32_rah_mem16, i32_to_f32_rh_mem32, i32_to_f32_tworh, 
+addf32_threerh_and_mov32_mem32_rh, addf32_threerh_and_mov32_rh_mem32, macf32_r7h_r6h_and_mov32_rh_mem32, 
+macf32_r3h_r2h_and_mov32_rh_mem32, moviz, mpyf32_threerh, mpyf32_rah_rbh_16bit, mpyf32_threerh_and_addf32_threerh, 
+mpyf32_threerh_and_mov32_rah_mem32, mpyf32_threerh_and_mov32_mem32_rah, mpyf32_threerh_and_subf32_threerh, 
+subf32_threerh, subf32_tworh_imm, u16_to_f32_loc, ui16_to_f32_rh, ui32_to_f32_mem32, ui32_to_f32_tworh
+	otawa_cycles = 2
+
+extend pop_rpc, macf32_r7h_r3h_mem32_xar7, mpy2pif32, div2pif32
+	otawa_cycles = 3
+
+extend banz, bar, bf, eallow, edis, estop0, ffc, lb_xar7, lb_22bit, lc_xar7, lcr_xarn, norm_ACC_ind1, norm_ACC_ind2, 
+norm_ACC_ind3, norm_ACC_ind4, norm_ACC_ind5, norm_ACC_XARn, out_pa_loc16, rpt_loc16, sbf, xb_pma, xbanz, xbanz_arpn1, 
+xbanz_arpn2, xbanz_arpn3, xcall_pma, xpwrite, sinpuf32, cospuf32, atanpuf32, iexp2f32, log2f32
+	otawa_cycles = 4
+
+extend clrc_m0m1map, clrc_objmode, idle, loopnz, loopz, mov_ier, pop_dbgier, pop_dp_st1, pop_ifr, pop_st1, pwrite_xar7, 
+setc_M0M1MAP, setc_objmode, divf32_threerh, sqrtf32, quadf32
+	otawa_cycles = 5
+
+
+extend b, xb_al, xb_pma_cond, xcall_al, xcall_pma_cond, xret__xretc_cond, sb
+	otawa_cycles = 7
+
+extend intr, intr_nmi, intr_emuint, iret, lret, lrete, trap
+	otawa_cycles = 8
+
+extend movl_loc32_ACC__push_ACC
+	otawa_cycles = if src.num == 0b10111101 then 2 else 1 endif
+
+extend setc_mode  
+	otawa_cycles = if _m<4..4> || _m<5..5> then 2 else 1 endif
+
+	// moviz could be split up in all.nmp for more accuracy
