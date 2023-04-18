@@ -52,6 +52,7 @@ static Array<const hard::RegBank *> banks_table(3, banks_tab);
 
 #include "otawa_kind.h"
 #include "otawa_target.h"
+#include "otawa_cycles.h"
 #include "otawa_delayed.h"
 #include "otawa_read.h"
 #include "otawa_write.h"
@@ -98,6 +99,7 @@ public:
 	virtual address_t address(void) const override {
 		return _addr;
 	}
+	virtual Option<unsigned> cycles(void) override;
 
 	void dump(io::Output& out) override;
 	void semInsts(sem::Block &block) override;
@@ -421,6 +423,13 @@ public:
 		return target_addr;
 	}
 
+	unsigned decodeCycles(Address a) {
+		tms_inst_t *inst = tms_decode(_decoder, otawa2tms(a.offset()));
+		unsigned int cycles = tms_cycles(inst);
+		tms_free_inst(inst);
+		return cycles;
+	}
+
 	delayed_t decodeDelayed(Address a) {
 		tms_inst_t *inst= tms_decode(_decoder, otawa2tms(a.offset()));
 		delayed_t d = delayed_t(tms_delayed(inst));
@@ -498,6 +507,14 @@ void Inst::semInsts(sem::Block &block) {
 	// TO DO
 }
 
+// semInsts from Inst
+Option<unsigned> Inst::cycles(void) {
+	// TODO optimize like BranchInst::target()
+	unsigned int c = proc.decodeCycles(_addr);
+	// _cycles = c;
+	return c;
+}
+
 // target from BranchInst
 otawa::Inst *BranchInst::target(void) {
 	if (!isTargetDone) {
@@ -505,6 +522,9 @@ otawa::Inst *BranchInst::target(void) {
 		if(!isIndirect()) {
 			tms_address_t a = proc.decodeTarget(_addr).offset();
 			_target = process().findInstAt(a);
+		}
+		else {
+			// TODO JOR
 		}
 	}
 	return _target;
