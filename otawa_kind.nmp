@@ -24,8 +24,8 @@ let IS_BUNDLE	= 0x80000
 
 extend b, bf
 	otawa_kind = IS_CONTROL |
-		if c.is_conditional then IS_COND else 0
-		
+		if cond.is_conditional then IS_COND else 0 endif
+
 extend banz
 	otawa_kind = IS_CONTROL
 
@@ -64,7 +64,7 @@ extend lret, lrete, lretr
 
 extend sb
 	otawa_kind = IS_CONTROL |
-		if c.is_conditional then IS_COND else 0
+		if cond.is_conditional then IS_COND else 0 endif
 
 extend trap
 	otawa_kind = IS_CONTROL | IS_TRAP
@@ -77,7 +77,7 @@ extend xb_pma
 
 extend xb_pma_cond
 	otawa_kind = IS_CONTROL |
-		if c.is_conditional then IS_COND else 0
+		if cond.is_conditional then IS_COND else 0 endif
 
 extend xbanz, xbanz_arpn1, xbanz_arpn2, xbanz_arpn3
 	otawa_kind = IS_CONTROL
@@ -90,12 +90,9 @@ extend xcall_pma
 
 extend xcall_pma_cond
 	otawa_kind = IS_CONTROL | IS_CALL |
-		if c.is_conditional then IS_COND else 0
+		if cond.is_conditional then IS_COND else 0 endif
 
 extend xret__xretc_cond
 	otawa_kind = IS_CONTROL | IS_RETURN |
-		if c.is_conditional then IS_COND else 0
-
-
-
+		if cond.is_conditional then IS_COND else 0 endif
 
