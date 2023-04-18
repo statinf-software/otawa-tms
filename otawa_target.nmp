@@ -29,7 +29,6 @@ extend lcr
 	
 extend lcr_xarn
 	otawa_target = 0
-	// otawa_target = 0
 
 extend loopnz, loopz
 	otawa_target = __IADDR << 1 // loops

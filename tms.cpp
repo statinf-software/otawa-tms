@@ -42,10 +42,11 @@ const t::uint32 code_base = 0x82000;
 
 // Register description
 hard::RegBank R(hard::RegBank::Make("GPR").gen(32, hard::Register::Make("r%d")));
+hard::RegBank XAR(hard::RegBank::Make("XAR").gen(8, hard::Register::Make("XAR%d")));
 hard::Register PC("PC", hard::Register::ADDR, 32);
 hard::RegBank MISC(hard::RegBank::Make("Misc").add(PC));
-static const hard::RegBank *banks_tab[] = { &R, &MISC };
-static Array<const hard::RegBank *> banks_table(2, banks_tab);
+static const hard::RegBank *banks_tab[] = { &R, &MISC, &XAR };
+static Array<const hard::RegBank *> banks_table(3, banks_tab);
 
 } }	// otawa::tms
 
