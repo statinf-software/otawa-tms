@@ -99,7 +99,7 @@ public:
 	virtual address_t address(void) const override {
 		return _addr;
 	}
-	virtual Option<unsigned> cycles(void) override;
+	virtual Option<unsigned> cycles(void) /*override*/;
 
 	void dump(io::Output& out) override;
 	void semInsts(sem::Block &block) override;
@@ -313,9 +313,10 @@ public:
 				}
 
 				// build the symbol
-				// cerr << "Adding this symbol to file:" << sym->name().chars() << "\n";
+				//cerr << "Adding this symbol to file:" << sym->name().chars() << "\n";
 				Symbol *osym = new Symbol(*file, sym->name(),
 					kind, val, sym->size());
+				//cerr << "DEBUG: OTAWA: " << osym << io::endl;
 				file->addSymbol(osym);
 			}
 
@@ -356,7 +357,7 @@ public:
 		setup_debug();
 		if (_lines == nullptr)
 			return none;
-		auto l = _lines->lineAt(addr.offset());
+		auto l = _lines->lineAt(otawa2tms(addr.offset()));
 		if(l == nullptr)
 			return none;
 		return some(pair(
@@ -375,7 +376,9 @@ public:
 		Vector<Pair<gel::address_t, gel::address_t>> res;
 		(*f)->find(line, res);
 		for(auto a: res)
-			addresses.add(pair(Address(a.fst), Address(a.snd)));
+			addresses.add(pair(
+				Address(tms2otawa(a.fst)),
+				Address(tms2otawa(a.snd))));
 	}
 
 	virtual void get(Address at, t::int8& val)
