@@ -301,12 +301,15 @@ public:
 					// cerr << "DEBUG:TMS: function " << sym->name() << io::endl;
 					break;
 				case gel::Symbol::OTHER_TYPE:
+				case gel::Symbol::LABEL:
 					kind = Symbol::LABEL;
+					val = tms2otawa(val);
 					// cerr << "DEBUG:TMS: label " << sym->name() << io::endl;
 					break;
 				case gel::Symbol::DATA:
 					// cerr << "DEBUG:TMS: data " << sym->name() << io::endl;
 					kind = Symbol::DATA;
+					// val = tms2otawa(val);
 					break;
 				default:
 					continue;
