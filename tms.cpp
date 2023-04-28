@@ -312,6 +312,7 @@ public:
 					// val = tms2otawa(val);
 					break;
 				default:
+					//cerr << "DEBUG: don't know what to do with " << sym->name() << io::endl;
 					continue;
 				}
 

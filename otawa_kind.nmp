@@ -21,6 +21,7 @@ let IS_INDIRECT = 0x10000
 let IS_UNKNOWN	= 0x20000
 let IS_ATOMIC	= 0x40000
 let IS_BUNDLE	= 0x80000
+let IS_REPEAT	= 0x100000
 
 extend b, bf
 	otawa_kind = IS_CONTROL |
@@ -95,4 +96,7 @@ extend xcall_pma_cond
 extend xret__xretc_cond
 	otawa_kind = IS_CONTROL | IS_RETURN |
 		if cond.is_conditional then IS_COND else 0 endif
+
+extend rpt_imm, rpt_loc16
+	otawa_kind = IS_REPEAT
 
