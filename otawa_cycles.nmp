@@ -1,4 +1,4 @@
-extend abs_ACC, abstc_ACC, add_ACC_16bit, add_ACC_loc16, add_acc_loc16_0, add_acc_loc16_shift, add_acc_loc16_shift16, add_loc16_AX, 
+extend abs_ACC, abstc_ACC, add_ACC_16bit, add_ACC_loc16, add_acc_loc16_0, add_acc_loc16_shift, add_acc_loc16_shift16, add_AX_loc16, add_loc16_AX, 
 add_loc16_AX, add_loc16_signed, addb_ACC, addb_SP, addcl_ACC_loc32, addcu_ACC_loc16, addl_ACC_loc32, addl_loc32_ACC, 
 addu_ACC_loc16, addul_P_loc32, addul_ACC_loc32, adrk, and_ACC_16bit, and_ACC_16bit_16shift, and_ACC_loc16, 
 and_loc16_AX, and_AX_loc16, and_loc16_16bitsigned, andb_AX, asp, asr_ax, asr_ax_t, asr_acc, asr_acc_t, 
