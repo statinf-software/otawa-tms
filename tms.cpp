@@ -100,6 +100,7 @@ public:
 		return _addr;
 	}
 	virtual Option<unsigned> cycles(void) /*override*/;
+	virtual int repeatCount(void) /*override*/;
 
 	void dump(io::Output& out) override;
 	void semInsts(sem::Block &block) override;
@@ -437,6 +438,18 @@ public:
 		return cycles;
 	}
 
+	// returns -1 if not found
+	int decodeRepeatCount(Address addr) {
+		char out_buffer[200];
+		int rpt_number = -1;
+		tms_inst_t *inst = tms_decode(_decoder, otawa2tms(addr.offset()));
+		tms_disasm(out_buffer, inst);
+		tms_free_inst(inst);
+		sscanf(out_buffer, "RPT #%d", &rpt_number);
+		// cerr << "DEBUG: Repeat instruction: \"" << out_buffer << "\", identified as " << rpt_number << endl;
+		return rpt_number;
+	}
+
 	delayed_t decodeDelayed(Address a) {
 		tms_inst_t *inst= tms_decode(_decoder, otawa2tms(a.offset()));
 		delayed_t d = delayed_t(tms_delayed(inst));
@@ -520,6 +533,11 @@ Option<unsigned> Inst::cycles(void) {
 	unsigned int c = proc.decodeCycles(_addr);
 	// _cycles = c;
 	return c;
+}
+
+// returns -1 if not found
+int Inst::repeatCount(void) {
+	return proc.decodeRepeatCount(_addr);
 }
 
 // target from BranchInst
