@@ -100,3 +100,7 @@ extend xret__xretc_cond
 extend rpt_imm, rpt_loc16
 	otawa_kind = IS_REPEAT
 
+extend nop, pop_ar1_ar0, pop_ar3_ar2, pop_ar5_ar4, pop_ar1h_ar0h, pop_dbgier, pop_dp, pop_dp_st1, pop_ifr, 
+	pop_loc16, pop_p, pop_rpc, pop_st0, pop_st1, pop_t_st0, push_ar1_ar0, push_ar3_ar2, push_ar5_ar4, push_ar1h_ar0h, 
+	push_dbgier, push_dp, push_dp_st1, push_ifr, push_loc16, push_p, push_rpc, push_st0, push_st1, push_t_st0
+	otawa_kind = IS_LOAD | IS_STORE
