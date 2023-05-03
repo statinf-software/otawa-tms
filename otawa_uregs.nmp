@@ -1,15 +1,22 @@
 canon "record16"(card(8))
 canon "record32"(card(8))
+canon "recordxarn"(card(3))
 macro R16(r) = "record16"(r);
 macro R32(r) = "record32"(r);
+macro RX(r) = "recordxarn"(r);
 	
 extend
-	cmpl_ACC_loc32, addcl_ACC_loc32, addul_P_loc32, addul_ACC_loc32, movdl_xt_loc32, movl_ACC_loc32, movl_p_loc32, movl_XAR0_loc32, movl_XAR1_loc32, movl_XAR2_loc32, movl_XAR3_loc32, movl_XAR4_loc32, movl_XAR5_loc32, movl_XAR6_loc32, movl_XAR7_loc32, movl_xt_loc32, qmpyal_p_xt_loc32, qmpyl_p, qmpyl_acc, qmpysl, qmpyul, qmpyxul, subbl_acc_loc32, subcul_acc_loc32, subl_acc_loc32, subul_acc_loc32, subul_p_loc32
+	addb_XARn
+		otawa_read = {RX(xarn); }
+		otawa_write = {RX(xarn); }
+
+extend
+	cmpl_ACC_loc32, addcl_ACC_loc32, addul_P_loc32, addul_ACC_loc32, movl_ACC_loc32, movl_p_loc32, movl_xt_loc32, qmpyal_p_xt_loc32, qmpyl_p, qmpyl_acc, qmpysl, qmpyul, qmpyxul, subbl_acc_loc32, subcul_acc_loc32, subl_acc_loc32, subul_acc_loc32, subul_p_loc32
 		otawa_read = {R32(src); }
 		otawa_write = {}
 
 extend
-	mov_16bit_loc16, mov_ph_loc16, movz_AR6, movz_AR7, subu, add_ACC_loc16, add_acc_loc16_0, add_acc_loc16_shift, add_acc_loc16_shift16, dmov, mov_acc_loc16_shift_0, mov_acc_loc16_shift_1to15, mov_acc_loc16_shift_16, mov_ier, mov_OVC_loc16, mov_pl_loc16, mov_T_loc16, mova__addl_ACC_P, movad, movl_acc_p__movp, movs__subl_acc_p_pm, movu_acc_loc16, movu_OVC_loc16, movx, or_acc_loc16, out_pa_loc16, push_loc16, pwrite_xar7, rpt_loc16, sbbu, sqra, sqrs, sub_acc_loc16_shift_0, sub_acc_loc16_shift_1to15, sub_acc_loc16_shift_16, subcu_acc_loc16, tbit_loc16_bit, tbit_loc16_t, uout, xor_acc_loc16, zalr
+	mov_16bit_loc16, mov_ph_loc16, subu, add_ACC_loc16, add_acc_loc16_0, add_acc_loc16_shift, add_acc_loc16_shift16, dmov, mov_acc_loc16_shift_0, mov_acc_loc16_shift_1to15, mov_acc_loc16_shift_16, mov_ier, mov_OVC_loc16, mov_pl_loc16, mov_T_loc16, mova__addl_ACC_P, movad, movl_acc_p__movp, movs__subl_acc_p_pm, movu_acc_loc16, movu_OVC_loc16, movx, or_acc_loc16, out_pa_loc16, push_loc16, rpt_loc16, sbbu, sqra, sqrs, sub_acc_loc16_shift_0, sub_acc_loc16_shift_1to15, sub_acc_loc16_shift_16, subcu_acc_loc16, tbit_loc16_bit, tbit_loc16_t, uout, xor_acc_loc16, zalr
 		otawa_read = {R16(src); }
 		otawa_write = {}
 
@@ -19,13 +26,13 @@ extend
 		otawa_write = {}
 
 extend
-	mov_loc16_0, mov_loc16_const, mov_loc16_val, mov_loc16_ovc, mov_loc16_p, mov_loc16_T, movu_loc16_OVC, pread_loc16_xar7, xpread_loc16_al
+	mov_loc16_0, mov_loc16_const, mov_loc16_val, mov_loc16_ovc, mov_loc16_p, mov_loc16_T, movu_loc16_OVC, xpread_loc16_al
 		otawa_read = {}
 		otawa_write = {R16(dest); }
 
 extend
 	mov_loc16_ARn
-		otawa_read = {}
+		otawa_read = {RX(arn); }
 		otawa_write = {R16(dest); }
 
 extend
@@ -34,14 +41,109 @@ extend
 		otawa_write = {R16(dest); }
 
 extend
-	movl_loc32_XAR0, movl_loc32_XAR1, movl_loc32_XAR2, movl_loc32_XAR3, movl_loc32_XAR4, movl_loc32_XAR5, movl_loc32_XAR6, movl_loc32_XAR7, movl_loc32_p, movl_loc32_xt__push_xt
-		otawa_read = {}
+	movb_XAR6
+		otawa_read = {RX(6); }
+		otawa_write = {}
+
+extend
+	movb_XAR7, lb_xar7, lc_xar7
+		otawa_read = {RX(7); }
+		otawa_write = {}
+
+extend
+	movl_loc32_XAR0
+		otawa_read = {RX(0); }
 		otawa_write = {R32(dest); }
+
+extend
+	movl_loc32_XAR1
+		otawa_read = {RX(1); }
+		otawa_write = {R32(dest); }
+
+extend
+	movl_loc32_XAR2
+		otawa_read = {RX(2); }
+		otawa_write = {R32(dest); }
+
+extend
+	movl_loc32_XAR3
+		otawa_read = {RX(3); }
+		otawa_write = {R32(dest); }
+
+extend
+	movl_loc32_XAR4
+		otawa_read = {RX(4); }
+		otawa_write = {R32(dest); }
+
+extend
+	movl_loc32_XAR5
+		otawa_read = {RX(5); }
+		otawa_write = {R32(dest); }
+
+extend
+	movl_loc32_XAR6
+		otawa_read = {RX(6); }
+		otawa_write = {R32(dest); }
+
+extend
+	movl_loc32_XAR7
+		otawa_read = {RX(7); }
+		otawa_write = {R32(dest); }
+
+extend
+	movl_XAR0_22bit
+		otawa_read = {}
+		otawa_write = {RX(0); }
+
+extend
+	movl_XAR1_22bit
+		otawa_read = {}
+		otawa_write = {RX(1); }
+
+extend
+	movl_XAR2_22bit
+		otawa_read = {}
+		otawa_write = {RX(2); }
+
+extend
+	movl_XAR3_22bit
+		otawa_read = {}
+		otawa_write = {RX(3); }
+
+extend
+	movl_XAR4_22bit
+		otawa_read = {}
+		otawa_write = {RX(4); }
+
+extend
+	movl_XAR5_22bit
+		otawa_read = {}
+		otawa_write = {RX(5); }
+
+extend
+	movl_XAR6_22bit
+		otawa_read = {}
+		otawa_write = {RX(6); }
+
+extend
+	movl_XAR7_22bit, ffc
+		otawa_read = {}
+		otawa_write = {RX(7); }
 
 extend
 	mov_AR_loc16__movz_ARn_0to5
 		otawa_read = {R16(addr); }
-		otawa_write = {}
+		otawa_write = {RX(xarn); }
+
+extend
+	movz_AR6
+		otawa_read = {R16(src); }
+		otawa_write = {RX(6); }
+
+extend
+	movz_AR7, pwrite_xar7
+		otawa_read = {R16(src); }
+		otawa_write = {RX(7); }
 
 extend
 	nop
@@ -49,8 +151,18 @@ extend
 		otawa_write = {R32(arpn); }
 
 extend
-	add_loc16_AX, xor_loc16_ax
+	subb_XARn, mov_xarn_pc
 		otawa_read = {}
+		otawa_write = {RX(xarn); }
+
+extend
+	add_AX_loc16, and_AX_loc16, or_ax_loc16, sub_ax_loc16, xor_ax_loc16
+		otawa_read = {R16(src); }
+		otawa_write = {}
+
+extend
+	add_loc16_AX, and_loc16_AX, or_loc16_ax, subr_loc16_ax, xor_loc16_ax
+		otawa_read = {R16(dest); }
 		otawa_write = {R16(dest); }
 
 extend
@@ -64,7 +176,7 @@ extend
 		otawa_write = {R16(src); }
 
 extend
-	addl_ACC_loc32
+	addl_ACC_loc32, movdl_xt_loc32
 		otawa_read = {R32(src); }
 		otawa_write = {R32(src); }
 
@@ -74,7 +186,12 @@ extend
 		otawa_write = {R32(dest); }
 
 extend
-	and_ACC_loc16, cmp_loc16, macp_loc16, macp_loc16_xar7, mpy_ACC, mpy_ACC_T, mpy_P, mpy_P_T, mpya_P, mpya_P_T, mpys_P, mpyu_p, mpyu_ACC, mpyxu_ACC, mpyxu_P, xmac
+	adrk, cmpr0, cmpr1, cmpr2, cmpr3, norm_ACC_ind1, norm_ACC_ind2, norm_ACC_ind3, norm_ACC_ind4, norm_ACC_ind5
+		otawa_read = {RX(0); RX(1); RX(2); RX(3); RX(4); RX(5); RX(6); RX(7); }
+		otawa_write = {}
+
+extend
+	and_ACC_loc16, cmp_loc16, macp_loc16, mpy_ACC, mpy_ACC_T, mpy_P, mpy_P_T, mpya_P, mpya_P_T, mpys_P, mpyu_p, mpyu_ACC, mpyxu_ACC, mpyxu_P, xmac
 		otawa_read = {R16(loc); }
 		otawa_write = {}
 
@@ -84,13 +201,13 @@ extend
 		otawa_write = {}
 
 extend
-	and_loc16_AX, or_loc16_ax, subr_loc16_ax
-		otawa_read = {R16(dest); }
-		otawa_write = {R16(dest); }
+	bar
+		otawa_read = {RX(arn); RX(arm); }
+		otawa_write = {}
 
 extend
-	and_AX_loc16
-		otawa_read = {R16(src); }
+	cmp_ax
+		otawa_read = {R16(loc); }
 		otawa_write = {}
 
 extend
@@ -100,16 +217,16 @@ extend
 
 extend
 	dmac
-		otawa_read = {R32(dmacmode); }
+		otawa_read = {R32(dmacmode); RX(7); }
 		otawa_write = {}
 
 extend
 	imacl
-		otawa_read = {R32(imacmode); }
+		otawa_read = {R32(imacmode); RX(7); }
 		otawa_write = {}
 
 extend
-	impyal, impyl_acc, impyl_p, impysl, qmacl, macf32_r7h_r3h_mem32_xar7, mov32_locsrc, mov32_stf_mem32
+	impyal, impyl_acc, impyl_p, impysl, mov32_locsrc, mov32_stf_mem32
 		otawa_read = {R32(loc); }
 		otawa_write = {}
 
@@ -119,13 +236,33 @@ extend
 		otawa_write = {R16(addr); }
 
 extend
+	lcr_xarn, norm_ACC_XARn
+		otawa_read = {RX(xarn); }
+		otawa_write = {}
+
+extend
 	loopnz, loopz, mov_acc_loc16
 		otawa_read = {R16(addr); }
 		otawa_write = {}
 
 extend
+	macp_loc16_xar7
+		otawa_read = {R16(loc); RX(7); }
+		otawa_write = {}
+
+extend
+	max_ax
+		otawa_read = {R16(loc); }
+		otawa_write = {}
+
+extend
 	maxcul, maxl, mincul, minl
 		otawa_read = {R32(addr); }
+		otawa_write = {}
+
+extend
+	min
+		otawa_read = {R16(addr); }
 		otawa_write = {}
 
 extend
@@ -137,6 +274,11 @@ extend
 	mov_loc16_ax_cond
 		otawa_read = {}
 		otawa_write = {R16(addr); }
+
+extend
+	movb_XARn__movb_ARn
+		otawa_read = {RX(arn); }
+		otawa_write = {}
 
 extend
 	movb_loc16_8bit_cond, movh_loc16_p, xpread_loc16_pma
@@ -159,9 +301,94 @@ extend
 		otawa_write = {R32(loc); }
 
 extend
-	sub_loc16_ax
+	movl_loc32_p, movl_loc32_xt__push_xt
 		otawa_read = {}
+		otawa_write = {R32(dest); }
+
+extend
+	movl_XAR0_loc32
+		otawa_read = {R32(src); }
+		otawa_write = {RX(0); }
+
+extend
+	movl_XAR1_loc32
+		otawa_read = {R32(src); }
+		otawa_write = {RX(1); }
+
+extend
+	movl_XAR2_loc32
+		otawa_read = {R32(src); }
+		otawa_write = {RX(2); }
+
+extend
+	movl_XAR3_loc32
+		otawa_read = {R32(src); }
+		otawa_write = {RX(3); }
+
+extend
+	movl_XAR4_loc32
+		otawa_read = {R32(src); }
+		otawa_write = {RX(4); }
+
+extend
+	movl_XAR5_loc32
+		otawa_read = {R32(src); }
+		otawa_write = {RX(5); }
+
+extend
+	movl_XAR6_loc32
+		otawa_read = {R32(src); }
+		otawa_write = {RX(6); }
+
+extend
+	movl_XAR7_loc32
+		otawa_read = {R32(src); }
+		otawa_write = {RX(7); }
+
+extend
+	pop_ar1h_ar0h
+		otawa_read = {}
+		otawa_write = {RX(0); RX(1); }
+
+extend
+	pread_loc16_xar7
+		otawa_read = {RX(7); }
+		otawa_write = {R16(dest); }
+
+extend
+	push_ar1h_ar0h
+		otawa_read = {RX(1); RX(0); }
+		otawa_write = {}
+
+extend
+	qmacl, macf32_r7h_r3h_mem32_xar7
+		otawa_read = {RX(7); R32(loc); }
+		otawa_write = {}
+
+extend
+	sbrk_8bit, xbanz
+		otawa_read = {RX(0); RX(1); RX(2); RX(3); RX(4); RX(5); RX(6); RX(7); }
+		otawa_write = {RX(0); RX(1); RX(2); RX(3); RX(4); RX(5); RX(6); RX(7); }
+
+extend
+	sub_loc16_ax
+		otawa_read = {R16(src); }
 		otawa_write = {R16(src); }
+
+extend
+	xb_pma, xcall_pma, xcall_pma_cond
+		otawa_read = {}
+		otawa_write = {RX(0); RX(1); RX(2); RX(3); RX(4); RX(5); RX(6); RX(7); }
+
+extend
+	xbanz_arpn1, xbanz_arpn2, xbanz_arpn3
+		otawa_read = {RX(0); RX(1); RX(2); RX(3); RX(4); RX(5); RX(6); RX(7); }
+		otawa_write = {RX(0); RX(1); RX(2); RX(3); RX(4); RX(5); RX(6); RX(7); }
+
+extend
+	addf32_threerh_and_mov32_mem32_rh, addf32_threerh_and_mov32_rh_mem32, mpyf32_threerh_and_mov32_mem32_rah, subf32_and_mov32_locdest
+		otawa_read = {}
+		otawa_write = {R32(loc); }
 
 extend
 	i16_to_f32_rah_mem16
@@ -170,6 +397,11 @@ extend
 
 extend
 	i32_to_f32_rh_mem32, mov32_rah_mem32_cond, movd32, ui32_to_f32_mem32
+		otawa_read = {R32(loc); }
+		otawa_write = {}
+
+extend
+	macf32_r7h_r6h_and_mov32_rh_mem32, subf32_and_mov32
 		otawa_read = {R32(loc); }
 		otawa_write = {}
 
@@ -189,9 +421,9 @@ extend
 		otawa_write = {R32(loc); }
 
 extend
-	subf32_and_mov32_locdest
-		otawa_read = {}
-		otawa_write = {R32(loc); }
+	mpyf32_threerh_and_mov32_rah_mem32
+		otawa_read = {R32(loc); }
+		otawa_write = {}
 
 extend
 	u16_to_f32_loc
