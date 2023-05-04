@@ -18,7 +18,7 @@ extend iret
 extend lb_xar7
 	otawa_target = 0
 
-extend lb_22bit
+extend lb_22bit, lc_22bit
 	otawa_target = addr << 1
 
 extend lc_xar7

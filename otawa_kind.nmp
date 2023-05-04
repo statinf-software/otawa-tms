@@ -51,7 +51,7 @@ extend lb_22bit
 extend lc_xar7
 	otawa_kind = IS_CONTROL | IS_CALL | IS_INDIRECT
 
-extend lcr
+extend lcr, lc_22bit
 	otawa_kind = IS_CONTROL | IS_CALL
 
 extend lcr_xarn
