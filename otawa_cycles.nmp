@@ -71,4 +71,12 @@ extend movl_loc32_ACC__push_ACC
 extend setc_mode  
 	otawa_cycles = if _m<4..4> || _m<5..5> then 2 else 1 endif
 
+
+extend dmac, imacl, in_loc16, macp_loc16, macp_loc16_xar7, mov_16bit_loc16, mov_loc16_val, norm_ACC_ind1, norm_ACC_ind2, norm_ACC_ind3, 
+norm_ACC_ind4, norm_ACC_ind5, norm_ACC_XARn, pread_loc16_xar7, pwrite_xar7, qmacl, uout, xmac, xmacd, xpread_loc16_pma,
+xpread_loc16_al, xpwrite, macf32_r7h_r3h_mem32_xar7
+	otawa_rpt_cycles = 1
+
+extend push_RB, rptb, rptb_rc
+	otawa_rpt_cycles = 0
 	// moviz could be split up in all.nmp for more accuracy
