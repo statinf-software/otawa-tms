@@ -228,10 +228,6 @@ public:
 	virtual File *loadFile(elm::CString path) {
 		// Output log(io::err); // for debugging, use log << ...
 
-		// check if there is not an already opened file !
-		if(program())
-			throw LoadException("loader cannot open multiple files !");
-
 		// make the file
 		File *file = new otawa::File(path);
 		addFile(file);
